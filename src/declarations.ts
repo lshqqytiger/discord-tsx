@@ -135,6 +135,10 @@ declare module "discord.js" {
   }
 
   type MessageSubElementKeys = "embeds" | "components";
+  type ElementMessageReplyOptions = JSX.DiscordNodeReplacer<
+    MessageReplyOptions,
+    MessageSubElementKeys
+  >;
   type ElementInteractionReplyOptions = JSX.DiscordNodeReplacer<
     Discord.InteractionReplyOptions,
     MessageSubElementKeys
@@ -147,6 +151,15 @@ declare module "discord.js" {
     Discord.InteractionUpdateOptions,
     MessageSubElementKeys
   >;
+  interface Message<InGuild extends boolean = boolean> {
+    reply(
+      options:
+        | JSX.Element
+        | string
+        | MessagePayload
+        | ElementMessageReplyOptions
+    ): Promise<OmitPartialGroupDMChannel<Message<InGuild>>>;
+  }
   interface CommandInteraction<Cached extends CacheType = CacheType> {
     reply(
       options: JSX.Element | ElementInteractionReplyOptions
